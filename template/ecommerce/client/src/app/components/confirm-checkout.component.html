@@ -1,6 +1,6 @@
 <h2>Checkout</h2>
 
-<form [formGroup]="form" >
+<form [formGroup]="form" (submit)="placeOrder()">
   <table>
     <tr>
       <td>Name: </td>
@@ -45,16 +45,20 @@
       <th>Quantity</th>
     </tr>
   </thead>
+  @if (cart$ | async; as cart) {
+  @for (c of cart.lineItems; track $index) {
   <tbody>
     <tr>
-      <td> Apple </td>
-      <td> 0.5 </td>
-      <td> 6 </td>
+      <td> {{ c.name }} </td>
+      <td> {{ c.price | currency:"INR" }} </td>
+      <td> {{ c.quantity }} </td>
     </tr>
   </tbody>
+  }
   <tfoot>
     <td></td>
     <td>Total: </td>
-    <td> 100 </td>
+    <td> {{(totalPrice$ | async) | currency:"INR" }} </td>
   </tfoot>
+  }
 </table>
